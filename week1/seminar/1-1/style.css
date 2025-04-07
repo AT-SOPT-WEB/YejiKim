@@ -1,0 +1,25 @@
+h1 {
+  color: brown;
+}
+
+#one {
+  background-color: pink;
+}
+
+#two {
+  text-decoration: underline;
+}
+
+#three {
+  color: blue;
+}
+
+section::first-letter {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+section:hover {
+  background-color: lightgreen;
+  cursor: pointer;
+}
