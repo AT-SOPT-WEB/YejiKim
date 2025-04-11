@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <script
+      src="https://kit.fontawesome.com/6fe0610783.js"
+      crossorigin="anonymous"
+    ></script>
+    <title>스웹 1주차 과제</title>
+  </head>
+  <body>
+    <!-- 헤더  -->
+    <header>
+      <button class="logo">
+        <i class="fa-solid fa-poo fa-2x"></i>
+      </button>
+      <h1>예지의 블로그</h1>
+      <button class="menu">
+        <i class="fa-solid fa-bars fa-2x"></i>
+      </button>
+    </header>
+
+    <main>
+      <!-- 사이드 바 -->
+      <aside class="sidebar">
+        <h3>분류</h3>
+        <ul>
+          <li>
+            <a href="#love">최애</a>
+          </li>
+          <li>
+            <a href="#cute">귀여움</a>
+          </li>
+          <li>
+            <a href="#ugly">못생김</a>
+          </li>
+        </ul>
+      </aside>
+
+      <!-- 메인 컨텐츠 -->
+      <div class="main-container">
+        <!-- 소개  -->
+        <section class="content" id="introduce">
+          <span>안녕하세요 김예지 블로그입니다 ^_^</span>
+
+          <!-- 이미지 그리드  -->
+          <section class="image-gallery">
+            <picture class="item item1">
+              <source srcset="./images/toystory.webp" type="image/webp" />
+              <img
+                src="./images/toystory.jpg"
+                alt="토이스토리"
+                loading="lazy"
+              />
+            </picture>
+
+            <picture class="item item2">
+              <source srcset="./images/toystory2.webp" type="image/webp" />
+              <source srcset="./images/toystory2.webp" type="image/webp" />
+              <img
+                src="./images/toystory.jpg"
+                alt="토이스토리"
+                loading="lazy"
+              />
+            </picture>
+
+            <picture class="item item3">
+              <source srcset="./images/toystory3.webp" type="image/webp" />
+              <img
+                src="./images/toystory.jpg"
+                alt="토이스토리"
+                loading="lazy"
+              />
+            </picture>
+
+            <picture class="item item4">
+              <source srcset="./images/toystory4.webp" type="image/webp" />
+              <img
+                src="./images/toystory.jpg"
+                alt="토이스토리"
+                loading="lazy"
+              />
+            </picture>
+
+            <picture class="item item5">
+              <source srcset="./images/toystory5.webp" type="image/webp" />
+              <source srcset="./images/toystory5.webp" type="image/webp" />
+              <img
+                src="./images/toystory.jpg"
+                alt="토이스토리"
+                loading="lazy"
+              />
+            </picture>
+          </section>
+        </section>
+
+        <!-- 최애  -->
+        <section class="content" id="love">
+          <h2>최애 🥵</h2>
+          <div class="card-grid">
+            <div class="card">
+              <picture>
+                <source srcset="./images/woody.webp" type="image/webp" />
+                <img
+                  src="./images/toystory.jpg"
+                  alt="토이스토리"
+                  loading="lazy"
+                />
+              </picture>
+              <h4>우디</h4>
+              <p>좋아요 100개</p>
+              <i class="fa-solid fa-heart fa-2x"></i>
+            </div>
+            <div class="card">
+              <picture>
+                <source srcset="./images/buzz.webp" type="image/webp" />
+                <img
+                  src="./images/toystory.jpg"
+                  alt="토이스토리"
+                  loading="lazy"
+                />
+              </picture>
+              <h4>버즈</h4>
+              <p>좋아요 90개</p>
+              <i class="fa-solid fa-heart fa-2x"></i>
+            </div>
+            <div class="card">
+              <picture>
+                <source srcset="./images/slinky.webp" type="image/webp" />
+                <img
+                  src="./images/toystory.jpg"
+                  alt="토이스토리"
+                  loading="lazy"
+                />
+              </picture>
+              <h4>슬링키</h4>
+              <p>좋아요 12개</p>
+              <i class="fa-solid fa-heart fa-2x"></i>
+            </div>
+            <div class="card">
+              <picture>
+                <source srcset="./images/aliens.webp" type="image/webp" />
+                <img
+                  src="./images/toystory.jpg"
+                  alt="토이스토리"
+                  loading="lazy"
+                />
+              </picture>
+              <h4>에일리언</h4>
+              <p>좋아요 12개</p>
+              <i class="fa-solid fa-heart fa-2x"></i>
+            </div>
+            <div class="card">
+              <picture>
+                <source srcset="./images/jessie.webp" type="image/webp" />
+                <img
+                  src="./images/toystory.jpg"
+                  alt="토이스토리"
+                  loading="lazy"
+                />
+              </picture>
+              <h4>제시</h4>
+              <p>좋아요 12개</p>
+              <i class="fa-solid fa-heart fa-2x"></i>
+            </div>
+
+            <div class="card">
+              <picture>
+                <source srcset="./images/hamm.webp" type="image/webp" />
+                <img
+                  src="./images/toystory.jpg"
+                  alt="토이스토리"
+                  loading="lazy"
+                />
+              </picture>
+              <h4>햄</h4>
+              <p>좋아요 12개</p>
+              <i class="fa-solid fa-heart fa-2x"></i>
+            </div>
+          </div>
+        </section>
+
+        <!-- 귀여움 -->
+        <section class="content" id="cute">
+          <h2>귀여움 🥸</h2>
+          <div class="card-grid">
+            <div class="card">
+              <picture>
+                <source srcset="./images/bullseye.webp" type="image/webp" />
+                <img
+                  src="./images/toystory.jpg"
+                  alt="토이스토리"
+                  loading="lazy"
+                />
+              </picture>
+              <h4>불스아이</h4>
+              <p>좋아요 12개</p>
+              <i class="fa-solid fa-heart fa-2x"></i>
+            </div>
+
+            <div class="card">
+              <picture>
+                <source srcset="./images/wheezy.webp" type="image/webp" />
+                <img
+                  src="./images/toystory.jpg"
+                  alt="토이스토리"
+                  loading="lazy"
+                />
+              </picture>
+              <h4>위지</h4>
+              <p>좋아요 12개</p>
+              <i class="fa-solid fa-heart fa-2x"></i>
+            </div>
+
+            <div class="card">
+              <picture>
+                <source srcset="./images/toystory5.webp" type="image/webp" />
+                <img
+                  src="./images/toystory.jpg"
+                  alt="토이스토리"
+                  loading="lazy"
+                />
+              </picture>
+              <h4>랏소 베어</h4>
+              <p>좋아요 12개</p>
+              <i class="fa-solid fa-heart fa-2x"></i>
+            </div>
+
+            <div class="card">
+              <picture>
+                <source srcset="./images/dolly.webp" type="image/webp" />
+                <img
+                  src="./images/toystory.jpg"
+                  alt="토이스토리"
+                  loading="lazy"
+                />
+              </picture>
+              <h4>돌리</h4>
+              <p>좋아요 12개</p>
+              <i class="fa-solid fa-heart fa-2x"></i>
+            </div>
+          </div>
+        </section>
+
+        <!-- 못생김 -->
+        <section class="content" id="ugly">
+          <h2>못생김 🤔</h2>
+          <div class="card-grid">
+            <div class="card">
+              <picture>
+                <source srcset="./images/mrpotato.webp" type="image/webp" />
+                <img
+                  src="./images/toystory.jpg"
+                  alt="토이스토리"
+                  loading="lazy"
+                />
+              </picture>
+              <h4>미스터 포테이토 헤드</h4>
+              <p>싫어요 10개</p>
+              <i class="fa-solid fa-heart fa-2x"></i>
+            </div>
+
+            <div class="card">
+              <picture>
+                <source srcset="./images/mrspotato.webp" type="image/webp" />
+                <img
+                  src="./images/toystory.jpg"
+                  alt="토이스토리"
+                  loading="lazy"
+                />
+              </picture>
+              <h4>미세스 포테이토 헤드</h4>
+              <p>싫어요 10개</p>
+              <i class="fa-solid fa-heart fa-2x"></i>
+            </div>
+
+            <div class="card">
+              <picture>
+                <source srcset="./images/rocky.webp" type="image/webp" />
+                <img
+                  src="./images/toystory.jpg"
+                  alt="토이스토리"
+                  loading="lazy"
+                />
+              </picture>
+              <h4>록키 지브롤터</h4>
+              <p>싫어요 10개</p>
+              <i class="fa-solid fa-heart fa-2x"></i>
+            </div>
+
+            <div class="card">
+              <picture>
+                <source srcset="./images/ken.webp" type="image/webp" />
+                <img
+                  src="./images/toystory.jpg"
+                  alt="토이스토리"
+                  loading="lazy"
+                />
+              </picture>
+              <h4>켄</h4>
+              <p>싫어요 10개</p>
+              <i class="fa-solid fa-heart fa-2x"></i>
+            </div>
+
+            <div class="card">
+              <picture>
+                <source srcset="./images/toystory4.webp" type="image/webp" />
+                <img
+                  src="./images/toystory.jpg"
+                  alt="토이스토리"
+                  loading="lazy"
+                />
+              </picture>
+              <h4>몽키</h4>
+              <p>싫어요 10개</p>
+              <i class="fa-solid fa-heart fa-2x"></i>
+            </div>
+          </div>
+        </section>
+
+        <!-- 무한 배너  -->
+        <section class="infinite-banner">
+          <div class="banner-image">
+            <ul class="list">
+              <li>
+                <picture>
+                  <source srcset="./images/toystory.webp" type="image/webp" />
+                  <img
+                    src="./images/toystory.jpg"
+                    alt="토이스토리"
+                    loading="lazy"
+                  />
+                </picture>
+              </li>
+              <li>
+                <picture>
+                  <source srcset="./images/toystory2.webp" type="image/webp" />
+                  <img
+                    src="./images/toystory.jpg"
+                    alt="토이스토리"
+                    loading="lazy"
+                  />
+                </picture>
+              </li>
+              <li>
+                <picture>
+                  <source srcset="./images/toystory3.webp" type="image/webp" />
+                  <img
+                    src="./images/toystory.jpg"
+                    alt="토이스토리"
+                    loading="lazy"
+                  />
+                </picture>
+              </li>
+              <li>
+                <picture>
+                  <source srcset="./images/toystory4.webp" type="image/webp" />
+                  <img
+                    src="./images/toystory.jpg"
+                    alt="토이스토리"
+                    loading="lazy"
+                  />
+                </picture>
+              </li>
+              <li>
+                <picture>
+                  <source srcset="./images/toystory5.webp" type="image/webp" />
+                  <img
+                    src="./images/toystory.jpg"
+                    alt="토이스토리"
+                    loading="lazy"
+                  />
+                </picture>
+              </li>
+            </ul>
+
+            <ul class="list">
+              <li>
+                <picture>
+                  <source srcset="./images/toystory.webp" type="image/webp" />
+                  <img
+                    src="./images/toystory.jpg"
+                    alt="토이스토리"
+                    loading="lazy"
+                  />
+                </picture>
+              </li>
+              <li>
+                <picture>
+                  <source srcset="./images/toystory2.webp" type="image/webp" />
+                  <img
+                    src="./images/toystory.jpg"
+                    alt="토이스토리"
+                    loading="lazy"
+                  />
+                </picture>
+              </li>
+              <li>
+                <picture>
+                  <source srcset="./images/toystory3.webp" type="image/webp" />
+                  <img
+                    src="./images/toystory.jpg"
+                    alt="토이스토리"
+                    loading="lazy"
+                  />
+                </picture>
+              </li>
+              <li>
+                <picture>
+                  <source srcset="./images/toystory4.webp" type="image/webp" />
+                  <img
+                    src="./images/toystory.jpg"
+                    alt="토이스토리"
+                    loading="lazy"
+                  />
+                </picture>
+              </li>
+              <li>
+                <picture>
+                  <source srcset="./images/toystory5.webp" type="image/webp" />
+                  <img
+                    src="./images/toystory.jpg"
+                    alt="토이스토리"
+                    loading="lazy"
+                  />
+                </picture>
+              </li>
+            </ul>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <!-- 푸터  -->
+    <footer>
+      <p>
+        <i class="fa-solid fa-copyright"></i>
+        AT SOPT WEB 1주차 과제
+      </p>
+
+      <p>날씨가 좋네요...</p>
+    </footer>
+  </body>
+</html>
