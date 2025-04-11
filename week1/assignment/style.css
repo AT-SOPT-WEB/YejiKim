@@ -95,11 +95,11 @@ main {
   border-radius: 0 0 0.5rem 0.5rem;
 }
 
-.introduce {
+.content {
   display: flex;
   flex-direction: column;
   padding: 1rem;
-  background-color: #97e0ff;
+  background-color: #c7eeff;
 }
 
 .image-gallery {
@@ -145,6 +145,47 @@ main {
 .item5 {
   grid-column: span 1;
   grid-row: span 1;
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  justify-items: center;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 1rem;
+  background-color: #ffffff;
+  border-radius: 0.5rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card img {
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 1/1;
+  object-fit: fill;
+  display: block;
+}
+
+.card i {
+  cursor: pointer;
+}
+
+.card:hover {
+  transform: scale(1.05);
+  background-color: #f4f4f4;
+}
+
+.card i:hover {
+  color: #ff7a70;
 }
 
 footer {
