@@ -48,6 +48,9 @@ main {
   flex-direction: column;
   gap: 2rem;
   flex: 1;
+
+  min-width: 0;
+  width: 100%;
 }
 
 .sidebar {
@@ -186,6 +189,52 @@ main {
 
 .card i:hover {
   color: #ff7a70;
+}
+
+.infinite-banner {
+  background-color: #c7eeff;
+  overflow: hidden;
+}
+
+.list {
+  display: flex;
+  list-style: none;
+  gap: 0.5rem;
+  padding: 0;
+}
+
+.list li img {
+  width: 15rem;
+  height: 15rem;
+  object-fit: cover;
+}
+
+.banner-image {
+  display: flex;
+  animation: scroll 15s linear infinite;
+  gap: 0.5rem;
+}
+
+.banner-image ul {
+  display: flex;
+  list-style: none;
+  gap: 0.5rem;
+  padding: 0;
+}
+
+.banner-image ul li img {
+  width: 15rem;
+  height: 15rem;
+  object-fit: cover;
+}
+
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
 }
 
 footer {
