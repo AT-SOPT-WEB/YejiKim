@@ -21,6 +21,7 @@ header {
   justify-content: space-between;
   align-items: center;
   background-color: #f1efec;
+  z-index: 10;
 }
 
 .logo,
@@ -179,9 +180,17 @@ main {
 .card:hover {
   transform: scale(1.05);
   background-color: #f4f4f4;
+  overflow: hidden;
 }
 
-.card i:hover {
+.like-button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.like-button:hover {
   color: #ff7a70;
 }
 
