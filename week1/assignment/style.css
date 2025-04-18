@@ -15,7 +15,7 @@ html {
   scroll-padding-top: 5rem;
 }
 
-header {
+.header-container {
   position: sticky;
   top: 0;
   display: flex;
