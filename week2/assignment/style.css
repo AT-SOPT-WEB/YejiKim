@@ -65,6 +65,7 @@ body {
   position: absolute;
   top: 100%;
   left: 0;
+  min-width: 100%;
   margin-top: 5px;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
   border-radius: 5px;
@@ -73,10 +74,15 @@ body {
   overflow: hidden;
   z-index: 1;
   list-style: none;
+  padding: 0;
 }
 
-.todo__dropdown:hover .todo__dropdown-menu {
+.todo__dropdown.open .todo__dropdown-menu {
   display: block;
+}
+
+.todo__dropdown.open #priority-dropdown-btn i {
+  transform: rotate(180deg);
 }
 
 .todo__dropdown-item button {
@@ -178,6 +184,7 @@ body {
 /* 테이블 */
 .todo__table {
   width: 100%;
+  table-layout: fixed;
   border-collapse: collapse;
   text-align: center;
 }

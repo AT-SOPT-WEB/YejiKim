@@ -32,17 +32,17 @@
           </button>
 
           <div class="todo__dropdown">
-            <button class="todo__filter-btn">
+            <button class="todo__filter-btn" aria-expanded="false" aria-haspopup="true" id="priority-dropdown-btn"> 
               중요도 <i class="fa-solid fa-chevron-down"></i>
             </button>
-            <ul class="todo__dropdown-menu">
-              <li class="todo__dropdown-item">
+            <ul class="todo__dropdown-menu" role="menu" id="priority-dropdown-menu">
+              <li class="todo__dropdown-item" role="menuitem">
                 <button data-priority="1">1</button>
               </li>
-              <li class="todo__dropdown-item">
+              <li class="todo__dropdown-item" role="menuitem">
                 <button data-priority="2">2</button>
               </li>
-              <li class="todo__dropdown-item">
+              <li class="todo__dropdown-item" role="menuitem">
                 <button data-priority="3">3</button>
               </li>
             </ul>

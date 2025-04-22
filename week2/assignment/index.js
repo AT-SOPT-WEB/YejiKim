@@ -12,14 +12,16 @@ const todoCompleteBtn = document.querySelector('.todo__complete-btn');
 const todoCheckAll = document.querySelector('.todo__check-all');
 const todoTable = document.querySelector('.todo__table');
 const todoList = document.querySelector('.todo__list');
+const priorityDropdown = document.querySelector('.todo__dropdown');
+const priorityDropdownBtn = document.querySelector('#priority-dropdown-btn');
+const priorityDropdownMenu = document.querySelector('#priority-dropdown-menu');
 
 let allTodos = [];
 let currentFilter = 'all';
-
+let priorityFilter = null;
 
 function loadTodo() {
-    const todos = JSON.parse(localStorage.getItem(STORAGE_KEY)) || saveTodo(InitialData);
-    return todos;
+    allTodos = JSON.parse(localStorage.getItem(STORAGE_KEY)) || saveTodo(InitialData);
 }
 
 function renderTodoList(todos) {
@@ -77,17 +79,43 @@ function initFilterButtons() {
 }
 
 function filterTodos() {
-    return allTodos.filter(todo => {
-        if (currentFilter === 'all') return true;
-        if (currentFilter === 'completed') return todo.completed;
-        if (currentFilter === 'incomplete') return !todo.completed;
-    })
+    switch (currentFilter) {
+
+        case 'completed':
+            return allTodos.filter(todo => todo.completed);
+        case 'incomplete':
+            return allTodos.filter(todo => !todo.completed);
+        case 'priority':
+            return allTodos.filter(todo => todo.priority === priorityFilter);
+        default:
+            return allTodos;
+    }
 }
 
 function initTodo() {
-    allTodos = loadTodo();
+    loadTodo();
     initFilterButtons();
     renderTodoList(allTodos);
 }
+
+priorityDropdownBtn.addEventListener('click', e => {
+    e.preventDefault();
+    const isOpen = priorityDropdown.classList.toggle('open');
+    priorityDropdownBtn.setAttribute('aria-expanded', isOpen);
+    priorityDropdownMenu.classList.toggle('open');
+});
+
+priorityDropdownMenu.addEventListener('click', e => {
+    const item = e.target.closest('button[data-priority]');
+    if (!item) return;
+
+    currentFilter = 'priority';
+    priorityFilter = Number(item.dataset.priority);
+    priorityDropdownBtn.textContent = `중요도 ${priorityFilter}`;
+    priorityDropdown.classList.remove('open');
+    priorityDropdownBtn.setAttribute('aria-expanded', false);
+
+    renderTodoList(filterTodos());
+})
 
 initTodo();
