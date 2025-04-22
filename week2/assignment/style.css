@@ -67,6 +67,7 @@ body {
   background-color: #f9f9f9;
   overflow: hidden;
   z-index: 1;
+  list-style: none;
 }
 
 .todo__dropdown:hover .todo__dropdown-menu {
@@ -137,7 +138,7 @@ body {
 }
 
 .todo__add-btn:hover {
-  background-color: #90c67c;
+  opacity: 0.9;
 }
 
 /* 액션 버튼 */
@@ -173,6 +174,7 @@ body {
 .todo__table {
   width: 100%;
   border-collapse: collapse;
+  text-align: center;
 }
 
 .todo__table th {
@@ -186,6 +188,6 @@ body {
   border: 1px solid #000;
 }
 
-.todo__table tr:nth-child(even) {
-  background-color: #f5f5f5;
+.todo__table tr {
+  background-color: #ffffff;
 }
