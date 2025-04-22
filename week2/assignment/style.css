@@ -49,6 +49,11 @@ body {
   opacity: 0.9;
 }
 
+.todo__filter-btn--active {
+  color: #000;
+  background-color: rgb(29, 190, 147);
+}
+
 /* 드롭다운 */
 .todo__dropdown {
   position: relative;

@@ -1,5 +1,8 @@
 import { todos as InitialData } from './data.js';
 
+const STORAGE_KEY = 'todo-data';
+
+const todoFilterBtns = document.querySelectorAll('.todo__filter-btn[data-filter]');
 const todoForm = document.querySelector('.todo__form');
 const todoInput = document.querySelector('.todo__input');
 const todoSelect = document.querySelector('.todo__select');
@@ -10,16 +13,13 @@ const todoCheckAll = document.querySelector('.todo__check-all');
 const todoTable = document.querySelector('.todo__table');
 const todoList = document.querySelector('.todo__list');
 
-const STORAGE_KEY = 'todo-data';
+let allTodos = [];
+let currentFilter = 'all';
+
 
 function loadTodo() {
     const todos = JSON.parse(localStorage.getItem(STORAGE_KEY)) || saveTodo(InitialData);
     return todos;
-}
-
-function initTodo() {
-    const todos = loadTodo();
-    renderTodoList(todos);
 }
 
 function renderTodoList(todos) {
@@ -57,6 +57,37 @@ function renderTodoList(todos) {
 function saveTodo(todo) {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(todo));
     return todo;
+}
+
+function initFilterButtons() {
+    todoFilterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            currentFilter = btn.dataset.filter;
+
+            todoFilterBtns.forEach(b => {
+                b.classList.toggle(
+                    'todo__filter-btn--active',
+                    b.dataset.filter === currentFilter
+                );
+            });
+
+            renderTodoList(filterTodos());
+        })
+    })
+}
+
+function filterTodos() {
+    return allTodos.filter(todo => {
+        if (currentFilter === 'all') return true;
+        if (currentFilter === 'completed') return todo.completed;
+        if (currentFilter === 'incomplete') return !todo.completed;
+    })
+}
+
+function initTodo() {
+    allTodos = loadTodo();
+    initFilterButtons();
+    renderTodoList(allTodos);
 }
 
 initTodo();
