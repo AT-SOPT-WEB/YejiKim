@@ -16,6 +16,9 @@ const ui = {
     addForm: $('#todo-form'),
     checkAll: $('.todo__check-all'),
     completeBtn: $('#complete-btn'),
+    deleteBtn: $('#delete-btn'),
+    modal: $('.todo__modal'),
+    modalBtn: $('.todo__modal-btn'),
 };
 
 const state = {
@@ -59,7 +62,6 @@ function createTodoRow(todo) {
     const cb = document.createElement('input');
     cb.type = 'checkbox';
     cb.className = 'todo__row-check';
-    cb.checked = todo.completed;
     tdCheck.appendChild(cb);
     tr.appendChild(tdCheck);
 
@@ -144,7 +146,6 @@ function bindFilterButtons() {
         })
     })
 }
-
 
 function bindPriorityDropdown() {
     ui.dropdownBtn.addEventListener('click', e => {
@@ -251,6 +252,21 @@ function bindCompleteButton() {
     });
 }
 
+function bindDeleteButton() {
+    ui.deleteBtn.addEventListener('click', () => {
+        const checkedBoxes = ui.listBody.querySelectorAll('.todo__row-check:checked');
+        if (checkedBoxes.length === 0) return
+
+        const removeIdArray = Array.from(checkedBoxes).map(cb => Number(cb.closest('tr').dataset.id));
+        state.allTodos = state.allTodos.filter(t => !removeIdArray.includes(t.id));
+
+        saveTodo(state.allTodos);
+        renderTodoList();
+
+        ui.checkAll.checked = false;
+    });
+}
+
 function init() {
     loadTodo();
     bindFilterButtons();
@@ -260,6 +276,7 @@ function init() {
     bindRowChecks();
     bindDragAndDrop();
     bindCompleteButton();
+    bindDeleteButton();
     renderTodoList();
 }
 
