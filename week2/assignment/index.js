@@ -15,6 +15,7 @@ const ui = {
     select: $('#new-priority'),
     addForm: $('#todo-form'),
     checkAll: $('.todo__check-all'),
+    completeBtn: $('#complete-btn'),
 };
 
 const state = {
@@ -231,6 +232,25 @@ function bindDragAndDrop() {
     });
 }
 
+function bindCompleteButton() {
+    ui.completeBtn.addEventListener('click', () => {
+        const checkedBoxes = ui.listBody.querySelectorAll('.todo__row-check:checked');
+        if (checkedBoxes.length === 0) return
+
+        checkedBoxes.forEach(cb => {
+            const id = Number(cb.closest('tr').dataset.id);
+            const todo = state.allTodos.find(t => t.id === id);
+
+            if (todo) {
+                todo.completed = cb.checked;
+            }
+        });
+
+        saveTodo(state.allTodos);
+        renderTodoList();
+    });
+}
+
 function init() {
     loadTodo();
     bindFilterButtons();
@@ -239,6 +259,7 @@ function init() {
     bindCheckAll();
     bindRowChecks();
     bindDragAndDrop();
+    bindCompleteButton();
     renderTodoList();
 }
 
