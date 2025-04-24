@@ -52,6 +52,7 @@ function filterTodos() {
 function createTodoRow(todo) {
     const tr = document.createElement('tr');
     tr.dataset.id = todo.id;
+    tr.draggable = true;
 
     const tdCheck = document.createElement('td');
     const cb = document.createElement('input');
@@ -112,6 +113,18 @@ function handleAddTodo(e) {
     renderTodoList();
 
     ui.addForm.reset();
+}
+
+// 할 일 리스트 정렬 
+function sortDragTodos(dragId, targetId) {
+    const todos = state.allTodos;
+    const fromIndex = todos.findIndex(t => t.id === dragId);
+    const toIndex = todos.findIndex(t => t.id === targetId);
+
+    if (fromIndex === toIndex || fromIndex < 0 || toIndex < 0) return;
+
+    // splice(삽입할 인덱스, 아무것도 삭제 하지 않음, 삽입할 요소)   
+    todos.splice(toIndex, 0, todos.splice(fromIndex, 1)[0]);
 }
 
 // 이벤트 바인딩 
@@ -192,6 +205,32 @@ function bindRowChecks() {
     });
 }
 
+function bindDragAndDrop() {
+    ui.listBody.addEventListener('dragstart', e => {
+        const tr = e.target.closest('tr');
+        if (!tr) return;
+        e.dataTransfer.setData('text/plain', tr.dataset.id);
+    });
+
+    ui.listBody.addEventListener('dragover', e => {
+        e.preventDefault();
+    });
+
+    ui.listBody.addEventListener('drop', e => {
+        e.preventDefault();
+
+        const tr = e.target.closest('tr');
+        if (!tr) return;
+
+        const dragId = Number(e.dataTransfer.getData('text/plain'));
+        const targetId = Number(tr.dataset.id);
+        sortDragTodos(dragId, targetId);
+
+        saveTodo(state.allTodos);
+        renderTodoList();
+    });
+}
+
 function init() {
     loadTodo();
     bindFilterButtons();
@@ -199,6 +238,7 @@ function init() {
     bindAddTodo();
     bindCheckAll();
     bindRowChecks();
+    bindDragAndDrop();
     renderTodoList();
 }
 
