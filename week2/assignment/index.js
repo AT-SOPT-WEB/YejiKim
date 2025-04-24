@@ -11,6 +11,9 @@ const ui = {
     dropdown: $('.todo__dropdown'),
     dropdownBtn: $('#priority-dropdown-btn'),
     dropdownMenu: $('#priority-dropdown-menu'),
+    input: $('#new-todo'),
+    select: $('#new-priority'),
+    addForm: $('#todo-form'),
 };
 
 const state = {
@@ -84,6 +87,32 @@ function renderTodoList() {
     });
 }
 
+// 할 일 추가
+function handleAddTodo(e) {
+    e.preventDefault();
+    const title = ui.input.value.trim();
+    const priority = ui.select.value;
+
+    if (!title || !priority) {
+        alert('할 일과 중요도를 모두 입력해주세요 !!!');
+        return;
+    }
+
+    const newTodo = {
+        id: state.allTodos.length ? Math.max(...state.allTodos.map(t => t.id)) + 1 : 1,
+        title,
+        priority: Number(priority),
+        completed: false,
+    };
+
+    state.allTodos.push(newTodo);
+    saveTodo(state.allTodos);
+
+    renderTodoList();
+
+    ui.addForm.reset();
+}
+
 // 이벤트 바인딩 
 function bindFilterButtons() {
     ui.filterBtns.forEach(btn => {
@@ -132,10 +161,15 @@ function bindPriorityDropdown() {
     });
 }
 
+function bindAddTodo() {
+    ui.addForm.addEventListener('submit', handleAddTodo);
+}
+
 function init() {
     loadTodo();
     bindFilterButtons();
     bindPriorityDropdown();
+    bindAddTodo();
     renderTodoList();
 }
 

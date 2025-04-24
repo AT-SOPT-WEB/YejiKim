@@ -23,7 +23,7 @@
       <!-- 필터 -->
       <section class="todo__filter">
         <div class="todo__filter-wrapper">
-          <button class="todo__filter-btn" data-filter="all" >전체</button>
+          <button class="todo__filter-btn" data-filter="all">전체</button>
           <button class="todo__filter-btn" data-filter="completed">
             완료됨
           </button>
@@ -32,10 +32,19 @@
           </button>
 
           <div class="todo__dropdown">
-            <button class="todo__filter-btn" aria-expanded="false" aria-haspopup="true" id="priority-dropdown-btn"> 
+            <button
+              class="todo__filter-btn"
+              aria-expanded="false"
+              aria-haspopup="true"
+              id="priority-dropdown-btn"
+            >
               중요도 <i class="fa-solid fa-chevron-down"></i>
             </button>
-            <ul class="todo__dropdown-menu" role="menu" id="priority-dropdown-menu">
+            <ul
+              class="todo__dropdown-menu"
+              role="menu"
+              id="priority-dropdown-menu"
+            >
               <li class="todo__dropdown-item" role="menuitem">
                 <button data-priority="1">1</button>
               </li>
@@ -59,9 +68,8 @@
             class="todo__input"
             id="new-todo"
             placeholder="할 일을 입력하세요"
-            required
           />
-          <select class="todo__select" id="new-priority" required>
+          <select class="todo__select" id="new-priority">
             <option value="" disabled selected>중요도 선택</option>
             <option value="1">1 ⭐️</option>
             <option value="2">2 ⭐️⭐️</option>
