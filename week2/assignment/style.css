@@ -203,3 +203,42 @@ body {
 .todo__table tr {
   background-color: #ffffff;
 }
+
+/* 모달 */
+.todo__modal {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.todo__modal-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  background-color: #fff;
+  padding: 30px 40px;
+  border-radius: 5px;
+  gap: 1rem;
+}
+
+.todo__modal-btn {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: #67ae6e;
+  color: #fff;
+  font-weight: 600;
+}
+
+.todo__modal-btn:hover {
+  opacity: 0.9;
+}
