@@ -14,6 +14,7 @@ const ui = {
     input: $('#new-todo'),
     select: $('#new-priority'),
     addForm: $('#todo-form'),
+    checkAll: $('.todo__check-all'),
 };
 
 const state = {
@@ -165,11 +166,39 @@ function bindAddTodo() {
     ui.addForm.addEventListener('submit', handleAddTodo);
 }
 
+function bindCheckAll() {
+    ui.checkAll.addEventListener('change', () => {
+        ui.listBody
+            .querySelectorAll('.todo__row-check')
+            .forEach(cb => cb.checked = ui.checkAll.checked);
+    });
+}
+
+function bindRowChecks() {
+    ui.listBody.addEventListener('change', e => {
+        if (!e.target.matches('.todo__row-check')) return;
+
+        const checkboxes = ui.listBody.querySelectorAll('.todo__row-check');
+
+        let isAllChecked = true;
+
+        for (const cb of checkboxes) {
+            if (!cb.checked) {
+                isAllChecked = false;
+                break;
+            }
+        }
+        ui.checkAll.checked = isAllChecked;
+    });
+}
+
 function init() {
     loadTodo();
     bindFilterButtons();
     bindPriorityDropdown();
     bindAddTodo();
+    bindCheckAll();
+    bindRowChecks();
     renderTodoList();
 }
 
