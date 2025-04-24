@@ -238,6 +238,20 @@ function bindCompleteButton() {
         const checkedBoxes = ui.listBody.querySelectorAll('.todo__row-check:checked');
         if (checkedBoxes.length === 0) return
 
+        const isAlreadyCompleted = Array.from(checkedBoxes).some(cb => {
+            const id = Number(cb.closest('tr').dataset.id);
+            const todo = state.allTodos.find(t => t.id === id);
+            return todo && todo.completed;
+        });
+
+        if (isAlreadyCompleted) {
+            ui.modal.classList.add('open');
+            ui.modalBtn.onclick = () => {
+                ui.modal.classList.remove('open');
+            };
+            return;
+        }
+
         checkedBoxes.forEach(cb => {
             const id = Number(cb.closest('tr').dataset.id);
             const todo = state.allTodos.find(t => t.id === id);
