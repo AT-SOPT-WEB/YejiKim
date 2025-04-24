@@ -51,7 +51,7 @@ body {
 
 .todo__filter-btn--active {
   color: #000;
-  background-color: rgb(29, 190, 147);
+  background-color: #1dbe93;
 }
 
 /* 드롭다운 */

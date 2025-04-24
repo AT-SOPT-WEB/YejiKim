@@ -10,7 +10,7 @@ todos.forEach((todo) => {
 });
 
 addBtn.addEventListener('click', () => {
-    const value = input.value;
+    const value = input.value; 
 
     if (!value) return;
 

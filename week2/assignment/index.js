@@ -2,120 +2,141 @@ import { todos as InitialData } from './data.js';
 
 const STORAGE_KEY = 'todo-data';
 
-const todoFilterBtns = document.querySelectorAll('.todo__filter-btn[data-filter]');
-const todoForm = document.querySelector('.todo__form');
-const todoInput = document.querySelector('.todo__input');
-const todoSelect = document.querySelector('.todo__select');
-const todoAddBtn = document.querySelector('.todo__add-btn');
-const todoDeleteBtn = document.querySelector('.todo__delete-btn');
-const todoCompleteBtn = document.querySelector('.todo__complete-btn');
-const todoCheckAll = document.querySelector('.todo__check-all');
-const todoTable = document.querySelector('.todo__table');
-const todoList = document.querySelector('.todo__list');
-const priorityDropdown = document.querySelector('.todo__dropdown');
-const priorityDropdownBtn = document.querySelector('#priority-dropdown-btn');
-const priorityDropdownMenu = document.querySelector('#priority-dropdown-menu');
+const $ = (s) => document.querySelector(s);
+const $$ = (s) => Array.from(document.querySelectorAll(s));
 
-let allTodos = [];
-let currentFilter = 'all';
-let priorityFilter = null;
+const ui = {
+    listBody: $('.todo__list'),
+    filterBtns: $$('.todo__filter-btn[data-filter]'),
+    dropdown: $('.todo__dropdown'),
+    dropdownBtn: $('#priority-dropdown-btn'),
+    dropdownMenu: $('#priority-dropdown-menu'),
+};
 
+const state = {
+    allTodos: [],
+    currentFilter: 'all',
+    priorityFilter: null,
+};
+
+// 로컬 스토리지에서 데이터 로드
 function loadTodo() {
-    allTodos = JSON.parse(localStorage.getItem(STORAGE_KEY)) || saveTodo(InitialData);
+    state.allTodos = JSON.parse(localStorage.getItem(STORAGE_KEY)) || saveTodo(InitialData);
 }
 
-function renderTodoList(todos) {
-    const tbody = document.querySelector('.todo__list');
-    tbody.innerHTML = '';
-
-    todos.forEach(todo => {
-        const tr = document.createElement('tr');
-        tr.dataset.id = todo.id;
-
-        const tdCheck = document.createElement('td');
-        const cb = document.createElement('input');
-        cb.type = 'checkbox';
-        cb.className = 'todo__row-check';
-        cb.checked = todo.completed;
-        tdCheck.appendChild(cb);
-        tr.appendChild(tdCheck);
-
-        const tdPriority = document.createElement('td');
-        tdPriority.textContent = todo.priority;
-        tr.appendChild(tdPriority);
-
-        const tdDone = document.createElement('td');
-        tdDone.textContent = todo.completed ? '✅' : '❌';
-        tr.appendChild(tdDone);
-
-        const tdTitle = document.createElement('td');
-        tdTitle.textContent = todo.title;
-        tr.appendChild(tdTitle);
-
-        tbody.appendChild(tr);
-    });
-}
-
+// 로컬 스토리지 저장 
 function saveTodo(todo) {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(todo));
     return todo;
 }
 
-function initFilterButtons() {
-    todoFilterBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            currentFilter = btn.dataset.filter;
+// 카테고리 필터링 
+function filterTodos() {
+    switch (state.currentFilter) {
+        case 'completed':
+            return state.allTodos.filter(todo => todo.completed);
+        case 'incomplete':
+            return state.allTodos.filter(todo => !todo.completed);
+        case 'priority':
+            return state.allTodos.filter(todo => todo.priority === state.priorityFilter);
+        default:
+            return state.allTodos;
+    }
+}
 
-            todoFilterBtns.forEach(b => {
+// 할 일 행 생성
+function createTodoRow(todo) {
+    const tr = document.createElement('tr');
+    tr.dataset.id = todo.id;
+
+    const tdCheck = document.createElement('td');
+    const cb = document.createElement('input');
+    cb.type = 'checkbox';
+    cb.className = 'todo__row-check';
+    cb.checked = todo.completed;
+    tdCheck.appendChild(cb);
+    tr.appendChild(tdCheck);
+
+    const tdPriority = document.createElement('td');
+    tdPriority.textContent = todo.priority;
+    tr.appendChild(tdPriority);
+
+    const tdDone = document.createElement('td');
+    tdDone.textContent = todo.completed ? '✅' : '❌';
+    tr.appendChild(tdDone);
+
+    const tdTitle = document.createElement('td');
+    tdTitle.textContent = todo.title;
+    tr.appendChild(tdTitle);
+
+    return tr;
+}
+
+// 할 일 목록 렌더링 
+function renderTodoList() {
+    const filteredTodos = filterTodos();
+
+    ui.listBody.innerHTML = '';
+
+    filteredTodos.forEach(todo => {
+        const row = createTodoRow(todo);
+        ui.listBody.appendChild(row);
+    });
+}
+
+// 이벤트 바인딩 
+function bindFilterButtons() {
+    ui.filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            state.currentFilter = btn.dataset.filter;
+
+            ui.filterBtns.forEach(b => {
                 b.classList.toggle(
                     'todo__filter-btn--active',
-                    b.dataset.filter === currentFilter
+                    b.dataset.filter === state.currentFilter
                 );
             });
-
             renderTodoList(filterTodos());
         })
     })
 }
 
-function filterTodos() {
-    switch (currentFilter) {
 
-        case 'completed':
-            return allTodos.filter(todo => todo.completed);
-        case 'incomplete':
-            return allTodos.filter(todo => !todo.completed);
-        case 'priority':
-            return allTodos.filter(todo => todo.priority === priorityFilter);
-        default:
-            return allTodos;
-    }
+function bindPriorityDropdown() {
+    ui.dropdownBtn.addEventListener('click', e => {
+        e.stopPropagation();
+        const open = ui.dropdown.classList.toggle('open');
+        ui.dropdownBtn.setAttribute('aria-expanded', open);
+    });
+
+    ui.dropdownMenu.addEventListener('click', e => {
+        const btn = e.target.closest('button[data-priority]');
+        if (!btn) return;
+
+        state.currentFilter = 'priority';
+        state.priorityFilter = Number(btn.dataset.priority);
+
+        ui.dropdownBtn.textContent = `중요도 ${state.priorityFilter}`;
+        ui.dropdown.classList.remove('open');
+        ui.filterBtns.forEach(b =>
+            b.classList.toggle('todo__filter-btn--active', false)
+        );
+        ui.dropdownBtn.classList.add('todo__filter-btn--active');
+
+        renderTodoList();
+    });
+
+    document.addEventListener('click', () => {
+        ui.dropdown.classList.remove('open');
+        ui.dropdownBtn.setAttribute('aria-expanded', false);
+    });
 }
 
-function initTodo() {
+function init() {
     loadTodo();
-    initFilterButtons();
-    renderTodoList(allTodos);
+    bindFilterButtons();
+    bindPriorityDropdown();
+    renderTodoList();
 }
 
-priorityDropdownBtn.addEventListener('click', e => {
-    e.preventDefault();
-    const isOpen = priorityDropdown.classList.toggle('open');
-    priorityDropdownBtn.setAttribute('aria-expanded', isOpen);
-    priorityDropdownMenu.classList.toggle('open');
-});
-
-priorityDropdownMenu.addEventListener('click', e => {
-    const item = e.target.closest('button[data-priority]');
-    if (!item) return;
-
-    currentFilter = 'priority';
-    priorityFilter = Number(item.dataset.priority);
-    priorityDropdownBtn.textContent = `중요도 ${priorityFilter}`;
-    priorityDropdown.classList.remove('open');
-    priorityDropdownBtn.setAttribute('aria-expanded', false);
-
-    renderTodoList(filterTodos());
-})
-
-initTodo();
+init();
