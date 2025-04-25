@@ -28,13 +28,14 @@ const state = {
 };
 
 // 로컬 스토리지에서 데이터 로드
-function loadTodo() {
-    state.allTodos = JSON.parse(localStorage.getItem(STORAGE_KEY)) || saveTodo(InitialData);
+function getTodo() {
+    state.allTodos = JSON.parse(localStorage.getItem(STORAGE_KEY)) || setTodo(InitialData);
 }
 
 // 로컬 스토리지 저장 
-function saveTodo(todo) {
+function setTodo(todo) {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(todo));
+    renderTodoList();
     return todo;
 }
 
@@ -58,20 +59,20 @@ function createTodoRow(todo) {
     tr.dataset.id = todo.id;
     tr.draggable = true;
 
-    const tdCheck = document.createElement('td');
-    const cb = document.createElement('input');
-    cb.type = 'checkbox';
-    cb.className = 'todo__row-check';
-    tdCheck.appendChild(cb);
-    tr.appendChild(tdCheck);
+    const tdCheckBox = document.createElement('td');
+    const checkBox = document.createElement('input');
+    checkBox.type = 'checkbox';
+    checkBox.className = 'todo__row-check';
+    tdCheckBox.appendChild(checkBox);
+    tr.appendChild(tdCheckBox);
 
     const tdPriority = document.createElement('td');
     tdPriority.textContent = todo.priority;
     tr.appendChild(tdPriority);
 
-    const tdDone = document.createElement('td');
-    tdDone.textContent = todo.completed ? '✅' : '❌';
-    tr.appendChild(tdDone);
+    const tdCompleted = document.createElement('td');
+    tdCompleted.textContent = todo.completed ? '✅' : '❌';
+    tr.appendChild(tdCompleted);
 
     const tdTitle = document.createElement('td');
     tdTitle.textContent = todo.title;
@@ -95,6 +96,7 @@ function renderTodoList() {
 // 할 일 추가
 function handleAddTodo(e) {
     e.preventDefault();
+
     const title = ui.input.value.trim();
     const priority = ui.select.value;
 
@@ -104,16 +106,14 @@ function handleAddTodo(e) {
     }
 
     const newTodo = {
-        id: state.allTodos.length ? Math.max(...state.allTodos.map(t => t.id)) + 1 : 1,
+        id: state.allTodos.length + 1,
         title,
         priority: Number(priority),
         completed: false,
     };
 
     state.allTodos.push(newTodo);
-    saveTodo(state.allTodos);
-
-    renderTodoList();
+    setTodo(state.allTodos);
 
     ui.addForm.reset();
 }
@@ -121,13 +121,13 @@ function handleAddTodo(e) {
 // 할 일 리스트 정렬 
 function sortDragTodos(dragId, targetId) {
     const todos = state.allTodos;
-    const fromIndex = todos.findIndex(t => t.id === dragId);
-    const toIndex = todos.findIndex(t => t.id === targetId);
+    const dragIndex = todos.findIndex(t => t.id === dragId);
+    const targetIndex = todos.findIndex(t => t.id === targetId);
 
-    if (fromIndex === toIndex || fromIndex < 0 || toIndex < 0) return;
+    if (dragIndex === targetIndex || dragIndex < 0 || targetIndex < 0) return;
 
     // splice(삽입할 인덱스, 아무것도 삭제 하지 않음, 삽입할 요소)   
-    todos.splice(toIndex, 0, todos.splice(fromIndex, 1)[0]);
+    todos.splice(targetIndex, 0, todos.splice(dragIndex, 1)[0]);
 }
 
 // 이벤트 바인딩 
@@ -142,7 +142,7 @@ function bindFilterButtons() {
                     b.dataset.filter === state.currentFilter
                 );
             });
-            renderTodoList(filterTodos());
+            renderTodoList();
         })
     })
 }
@@ -155,25 +155,19 @@ function bindPriorityDropdown() {
     });
 
     ui.dropdownMenu.addEventListener('click', e => {
-        const btn = e.target.closest('button[data-priority]');
-        if (!btn) return;
+        const button = e.target.closest('button[data-priority]');
+        if (!button) return;
 
         state.currentFilter = 'priority';
-        state.priorityFilter = Number(btn.dataset.priority);
-
+        state.priorityFilter = Number(button.dataset.priority);
         ui.dropdownBtn.textContent = `중요도 ${state.priorityFilter}`;
+
         ui.dropdown.classList.remove('open');
         ui.filterBtns.forEach(b =>
             b.classList.toggle('todo__filter-btn--active', false)
         );
-        ui.dropdownBtn.classList.add('todo__filter-btn--active');
 
         renderTodoList();
-    });
-
-    document.addEventListener('click', () => {
-        ui.dropdown.classList.remove('open');
-        ui.dropdownBtn.setAttribute('aria-expanded', false);
     });
 }
 
@@ -183,8 +177,7 @@ function bindAddTodo() {
 
 function bindCheckAll() {
     ui.checkAll.addEventListener('change', () => {
-        ui.listBody
-            .querySelectorAll('.todo__row-check')
+        ui.listBody.querySelectorAll('.todo__row-check')
             .forEach(cb => cb.checked = ui.checkAll.checked);
     });
 }
@@ -194,7 +187,6 @@ function bindRowChecks() {
         if (!e.target.matches('.todo__row-check')) return;
 
         const checkboxes = ui.listBody.querySelectorAll('.todo__row-check');
-
         let isAllChecked = true;
 
         for (const cb of checkboxes) {
@@ -227,9 +219,7 @@ function bindDragAndDrop() {
         const dragId = Number(e.dataTransfer.getData('text/plain'));
         const targetId = Number(tr.dataset.id);
         sortDragTodos(dragId, targetId);
-
-        saveTodo(state.allTodos);
-        renderTodoList();
+        setTodo(state.allTodos);
     });
 }
 
@@ -261,8 +251,7 @@ function bindCompleteButton() {
             }
         });
 
-        saveTodo(state.allTodos);
-        renderTodoList();
+        setTodo(state.allTodos);
     });
 }
 
@@ -274,15 +263,14 @@ function bindDeleteButton() {
         const removeIdArray = Array.from(checkedBoxes).map(cb => Number(cb.closest('tr').dataset.id));
         state.allTodos = state.allTodos.filter(t => !removeIdArray.includes(t.id));
 
-        saveTodo(state.allTodos);
-        renderTodoList();
+        setTodo(state.allTodos);
 
         ui.checkAll.checked = false;
     });
 }
 
 function init() {
-    loadTodo();
+    getTodo();
     bindFilterButtons();
     bindPriorityDropdown();
     bindAddTodo();
