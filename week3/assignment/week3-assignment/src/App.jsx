@@ -5,7 +5,7 @@ import BaseballGamePage from './pages/BaseballGamePage';
 import { useState } from 'react';
 
 function App() {
-  const [activeTab, setActiveTab] = useState('baseball');
+  const [activeTab, setActiveTab] = useState('github');
 
   return (
     <>

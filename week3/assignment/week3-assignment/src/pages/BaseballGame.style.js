@@ -7,7 +7,6 @@ export const baseballGameWrapper = css`
   justify-content: center;
   gap: 1rem;
   padding-top: 5rem;
-
 `;
 
 export const formStyle = css`
@@ -17,7 +16,6 @@ export const formStyle = css`
   justify-content: center;
 
   width: 100%;
-  border: none;
 `;
 
 export const messageStyle = css`
