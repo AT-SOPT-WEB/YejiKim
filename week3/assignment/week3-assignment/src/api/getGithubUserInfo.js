@@ -16,11 +16,11 @@
 // console.log(userInfo.data) 와 같이 접근 가능해요.
 
 export const getGithubUserInfo = async (username) => {
-    const response = await fetch(`https://api.github.com/users/${username}`);
+  const response = await fetch(`https://api.github.com/users/${username}`);
 
-    if (!response.ok) throw new Error("Network response was not ok");
+  if (!response.ok) throw new Error('Network response was not ok');
 
-    const data = await response.json();
+  const data = await response.json();
 
-    return data;
+  return data;
 };
