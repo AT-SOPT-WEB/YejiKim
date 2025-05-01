@@ -45,6 +45,12 @@ export const historyItemStyle = css`
   gap: 0.3rem;
 `;
 
+export const historyItemButtonStyle = css`
+  background: none;
+  border: none;
+  cursor: pointer;
+`;
+
 export const historyDeleteButtonStyle = css`
   display: flex;
   align-items: center;

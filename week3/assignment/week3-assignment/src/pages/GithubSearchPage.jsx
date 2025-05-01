@@ -15,6 +15,7 @@ import {
   userFollowWrapperStyle,
   userFollowTextStyle,
   historyDeleteButtonStyle,
+  historyItemButtonStyle,
 } from './GithubSearchPage.style';
 import { useState, useEffect } from 'react';
 import { getGithubUserInfo } from '../api/getGithubUserInfo';
@@ -35,7 +36,7 @@ function GithubSearchPage() {
     try {
       const data = await getGithubUserInfo(input);
       setUserInfo({ status: 'resolved', data });
-      setHistory((prev) => [...prev, input]);
+      setHistory((prev) => updateSearchHistory(prev, input));
     } catch (err) {
       console.error('에러 발생 : ', err);
       setUserInfo({ status: 'rejected', data: null });
@@ -49,6 +50,25 @@ function GithubSearchPage() {
 
   const handleDeleteHistory = (item) => {
     setHistory(history.filter((historyItem) => historyItem !== item));
+  };
+
+  const handleRecentSearch = async (item) => {
+    setUserInfo({ status: 'pending', data: null });
+
+    try {
+      const data = await getGithubUserInfo(item);
+      setUserInfo({ status: 'resolved', data });
+
+      setHistory((prev) => updateSearchHistory(prev, item));
+    } catch (err) {
+      console.error('에러 발생 : ', err);
+      setUserInfo({ status: 'rejected', data: null });
+    }
+  };
+
+  const updateSearchHistory = (prev, keyword) => {
+    if (prev.includes(keyword)) return prev;
+    return [...prev, keyword].slice(-3);
   };
 
   useEffect(() => {
@@ -79,7 +99,9 @@ function GithubSearchPage() {
           <ul css={historyListStyle}>
             {history.map((item, index) => (
               <li key={index} css={historyItemStyle}>
-                {item}
+                <button onClick={() => handleRecentSearch(item)} css={historyItemButtonStyle}>
+                  {item}
+                </button>
                 <button onClick={() => handleDeleteHistory(item)} css={historyDeleteButtonStyle}>
                   <AiOutlineClose />
                 </button>
