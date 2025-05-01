@@ -1,0 +1,119 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"
+      integrity="sha512-NhSC1YmyruXifcj/KFRWoC561YpHpc5Jtzgvbuzx5VozKpWvQ+4nXhPdFgmx8xqexRcpAglTj9sIBWINXa8x5w=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <script
+      defer
+      src="https://kit.fontawesome.com/6fe0610783.js"
+      crossorigin="anonymous"
+    ></script>
+    <title>2주차 과제</title>
+  </head>
+  <body>
+    <main class="todo">
+      <!-- 필터 -->
+      <section class="todo__filter">
+        <div class="todo__filter-wrapper">
+          <button class="todo__filter-btn" data-filter="all">전체</button>
+          <button class="todo__filter-btn" data-filter="completed">
+            완료됨
+          </button>
+          <button class="todo__filter-btn" data-filter="incomplete">
+            미완료
+          </button>
+
+          <div class="todo__dropdown">
+            <button
+              class="todo__filter-btn"
+              aria-expanded="false"
+              aria-haspopup="true"
+              id="priority-dropdown-btn"
+            >
+              중요도 <i class="fa-solid fa-chevron-down"></i>
+            </button>
+            <ul
+              class="todo__dropdown-menu"
+              role="menu"
+              id="priority-dropdown-menu"
+            >
+              <li class="todo__dropdown-item" role="menuitem">
+                <button data-priority="1">1</button>
+              </li>
+              <li class="todo__dropdown-item" role="menuitem">
+                <button data-priority="2">2</button>
+              </li>
+              <li class="todo__dropdown-item" role="menuitem">
+                <button data-priority="3">3</button>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- 입력 폼, 테이블  -->
+      <section class="todo__content">
+        <!-- 입력 폼 -->
+        <form class="todo__form">
+          <input
+            type="text"
+            class="todo__input"
+            placeholder="할 일을 입력하세요"
+          />
+          <select class="todo__select">
+            <option value="" disabled selected>중요도 선택</option>
+            <option value="1">1 ⭐️</option>
+            <option value="2">2 ⭐️⭐️</option>
+            <option value="3">3 ⭐️⭐️⭐️</option>
+          </select>
+          <button type="submit" class="todo__add-btn">추가</button>
+        </form>
+
+        <div class="todo__actions">
+          <button
+            class="todo__action-btn todo__action-btn--delete"
+            id="delete-btn"
+          >
+            삭제
+          </button>
+          <button
+            class="todo__action-btn todo__action-btn--complete"
+            id="complete-btn"
+          >
+            완료
+          </button>
+        </div>
+
+        <!-- 테이블 -->
+        <table class="todo__table">
+          <thead>
+            <tr>
+              <th><input type="checkbox" class="todo__check-all" /></th>
+              <th>중요도</th>
+              <th>완료됨</th>
+              <th>할 일</th>
+            </tr>
+          </thead>
+          <tbody class="todo__list" id="todo-list"></tbody>
+        </table>
+      </section>
+    </main>
+
+    <div class="todo__modal">
+      <div class="todo__modal-content">
+        <h3>이미 완료된 todo 입니다.</h3>
+        <button class="todo__modal-btn">확인</button>
+      </div>
+    </div>
+    <script type="module" src="index.js"></script>
+  </body>
+</html>
