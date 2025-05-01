@@ -1,4 +1,4 @@
-import { css } from '@emotion/react';
+import { css, keyframes } from '@emotion/react';
 
 export const githubSearchPageWrapper = css`
   display: flex;
@@ -118,4 +118,15 @@ export const userFollowStyle = css`
 export const userFollowTextStyle = css`
   font-size: 1.2rem;
   font-weight: 700;
+`;
+
+const spin = keyframes`
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+`;
+
+export const spinnerStyle = css`
+  font-size: 8rem;
+  animation: ${spin} 1s linear infinite;
+  margin-top: 2rem;
 `;

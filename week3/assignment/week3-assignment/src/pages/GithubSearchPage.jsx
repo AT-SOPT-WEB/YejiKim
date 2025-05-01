@@ -16,10 +16,13 @@ import {
   userFollowTextStyle,
   historyDeleteButtonStyle,
   historyItemButtonStyle,
+  spinnerStyle,
 } from './GithubSearchPage.style';
 import { useState, useEffect } from 'react';
 import { getGithubUserInfo } from '../api/getGithubUserInfo';
 import { AiOutlineClose } from 'react-icons/ai';
+import { ImSpinner2 } from 'react-icons/im';
+
 function GithubSearchPage() {
   const [input, setInput] = useState('');
   const [history, setHistory] = useState([]);
@@ -110,6 +113,10 @@ function GithubSearchPage() {
           </ul>
         </section>
       )}
+
+      {userInfo.status === 'pending' && <ImSpinner2 css={spinnerStyle} />}
+
+      {userInfo.status === 'rejected' && <p>결과를 찾을 수 없습니다. 다시 시도해 주세요.</p>}
 
       {userInfo.status === 'resolved' && (
         <article css={userInfoCardStyle}>
