@@ -35,11 +35,23 @@ export const historyListStyle = css`
   flex-wrap: wrap;
 `;
 
-export const historyItemStyle = css`
+export const historyItemStyle = css`  
+  display: flex;
+  align-items: center;
   font-size: 1rem;
   border: 1px solid #5f77ab;
   border-radius: 1rem;
   padding: 0.5rem;
+  gap: 0.3rem;
+`;
+
+export const historyDeleteButtonStyle = css`
+  display: flex;
+  align-items: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
 `;
 
 export const userInfoCardStyle = css`
@@ -70,10 +82,11 @@ export const userInfoTextStyle = css`
 `;
 
 export const clearButtonStyle = css`
+  display: flex;
   align-self: flex-end;
-  background-color: #c0eaf8;
-  border: 2px solid #ce2e15;
-  border-radius: 1rem;
+  background: none;
+  border: none;
+  font-size: 1.2rem;
   cursor: pointer;
 `;
 

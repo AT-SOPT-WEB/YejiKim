@@ -14,10 +14,11 @@ import {
   userFollowStyle,
   userFollowWrapperStyle,
   userFollowTextStyle,
+  historyDeleteButtonStyle,
 } from './GithubSearchPage.style';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { getGithubUserInfo } from '../api/getGithubUserInfo';
-
+import { AiOutlineClose } from 'react-icons/ai';
 function GithubSearchPage() {
   const [input, setInput] = useState('');
   const [history, setHistory] = useState([]);
@@ -46,6 +47,21 @@ function GithubSearchPage() {
     setUserInfo({ status: 'idle', data: null });
   };
 
+  const handleDeleteHistory = (item) => {
+    setHistory(history.filter((historyItem) => historyItem !== item));
+  };
+
+  useEffect(() => {
+    const storedHistory = localStorage.getItem('history');
+    if (storedHistory) {
+      setHistory(JSON.parse(storedHistory));
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('history', JSON.stringify(history));
+  }, [history]);
+
   return (
     <section css={githubSearchPageWrapper}>
       <form css={formStyle} onSubmit={handleSubmit}>
@@ -64,6 +80,9 @@ function GithubSearchPage() {
             {history.map((item, index) => (
               <li key={index} css={historyItemStyle}>
                 {item}
+                <button onClick={() => handleDeleteHistory(item)} css={historyDeleteButtonStyle}>
+                  <AiOutlineClose />
+                </button>
               </li>
             ))}
           </ul>
@@ -73,7 +92,7 @@ function GithubSearchPage() {
       {userInfo.status === 'resolved' && (
         <article css={userInfoCardStyle}>
           <button css={clearButtonStyle} onClick={handleClear}>
-            ❌
+            <AiOutlineClose />
           </button>
 
           <a
