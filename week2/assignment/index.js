@@ -105,8 +105,12 @@ function handleAddTodo(e) {
         return;
     }
 
+    const maxId = state.allTodos.length > 0
+      ? Math.max(...state.allTodos.map(todo => todo.id))
+      : 0;
+
     const newTodo = {
-        id: state.allTodos.length + 1,
+        id: maxId + 1,
         title,
         priority: Number(priority),
         completed: false,
