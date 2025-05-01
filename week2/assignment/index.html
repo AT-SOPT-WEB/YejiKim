@@ -13,6 +13,7 @@
       referrerpolicy="no-referrer"
     />
     <script
+      defer
       src="https://kit.fontawesome.com/6fe0610783.js"
       crossorigin="anonymous"
     ></script>
@@ -62,14 +63,13 @@
       <!-- 입력 폼, 테이블  -->
       <section class="todo__content">
         <!-- 입력 폼 -->
-        <form class="todo__form" id="todo-form">
+        <form class="todo__form">
           <input
             type="text"
             class="todo__input"
-            id="new-todo"
             placeholder="할 일을 입력하세요"
           />
-          <select class="todo__select" id="new-priority">
+          <select class="todo__select">
             <option value="" disabled selected>중요도 선택</option>
             <option value="1">1 ⭐️</option>
             <option value="2">2 ⭐️⭐️</option>
