@@ -1,111 +1,83 @@
 /** @jsxImportSource @emotion/react */
 import TextInput from '../components/TextInput';
-import {
-  githubSearchPageWrapper,
-  formStyle,
-  userInfoCardStyle,
-  historySectionStyle,
-  historyListStyle,
-  historyItemStyle,
-  clearButtonStyle,
-  userInfoImageStyle,
-  userInfoAnchorStyle,
-  userInfoTextStyle,
-  userFollowStyle,
-  userFollowWrapperStyle,
-  userFollowTextStyle,
-  historyDeleteButtonStyle,
-  historyItemButtonStyle,
-  spinnerStyle,
-} from './GithubSearchPage.style';
-import { useState, useEffect } from 'react';
+import { pageWrapper, formStyle, spinnerStyle } from './GithubSearchPage.style';
+import { useState } from 'react';
 import { getGithubUserInfo } from '../api/getGithubUserInfo';
-import { AiOutlineClose } from 'react-icons/ai';
 import { ImSpinner2 } from 'react-icons/im';
+import UserInfoCard from '../components/GithubSearch/UserInfoCard';
+import SearchHistory from '../components/GithubSearch/SearchHistory';
+import useLocalStorage from '../hooks/useLocalStorage';
+import { STORAGE_KEYS } from '../constants/storageKeys';
 
 function GithubSearchPage() {
-  const [input, setInput] = useState('');
-  const [history, setHistory] = useState([]);
+  const [userInput, setUserInput] = useState('');
+  const [history, setHistory] = useLocalStorage(STORAGE_KEYS.SEARCH_HISTORY, []);
   const [userInfo, setUserInfo] = useState({ status: 'idle', data: null });
 
-  const fetchGithubUser = async (userId) => {
+  // 입력 핸들러
+  const handleUserInputChange = (e) => setUserInput(e.target.value);
+
+  // 제출 핸들러
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!userInput.trim()) return;
+
+    fetchGithubUserInfo(userInput);
+
+    setUserInput('');
+  };
+
+  // 유저 정보 초기화 핸들러
+  const handleClearUserInfo = () => {
+    setUserInfo({ status: 'idle', data: null });
+  };
+
+  // 검색 기록 삭제 핸들러
+  const handleDeleteHistory = (item) => {
+    setHistory(history.filter((historyItem) => historyItem !== item));
+  };
+
+  // 검색 기록 클릭 핸들러
+  const handleClickHistory = async (userId) => {
+    fetchGithubUserInfo(userId);
+  };
+
+  // 깃허브 유저 정보 가져오기
+  const fetchGithubUserInfo = async (userId) => {
     setUserInfo({ status: 'pending', data: null });
     try {
       const data = await getGithubUserInfo(userId);
       setUserInfo({ status: 'resolved', data });
-      setHistory((prev) => updateSearchHistory(prev, userId));
+      setHistory((prev) => updateHistory(prev, userId));
     } catch (err) {
       console.error('에러 발생 : ', err);
       setUserInfo({ status: 'rejected', data: null });
     }
   };
 
-  const handleInputChange = (e) => setInput(e.target.value);
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!input.trim()) return;
-
-    fetchGithubUser(input);
-
-    setInput('');
-  };
-
-  const handleClear = () => {
-    setUserInfo({ status: 'idle', data: null });
-  };
-
-  const handleDeleteHistory = (item) => {
-    setHistory(history.filter((historyItem) => historyItem !== item));
-  };
-
-  const handleRecentSearch = async (input) => {
-    fetchGithubUser(input);
-  };
-
-  const updateSearchHistory = (prev, keyword) => {
+  // 히스토리 업데이트
+  const updateHistory = (prev, keyword) => {
     if (prev.includes(keyword)) return prev;
     return [...prev, keyword].slice(-3);
   };
 
-  useEffect(() => {
-    const storedHistory = localStorage.getItem('history');
-    if (storedHistory) {
-      setHistory(JSON.parse(storedHistory));
-    }
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem('history', JSON.stringify(history));
-  }, [history]);
-
   return (
-    <section css={githubSearchPageWrapper}>
+    <section css={pageWrapper}>
       <form css={formStyle} onSubmit={handleSubmit}>
         <TextInput
           id="github-search"
           placeholder="Github 프로필을 검색해보세요"
-          value={input}
-          onChange={handleInputChange}
+          value={userInput}
+          onChange={handleUserInputChange}
         />
       </form>
 
       {history.length > 0 && (
-        <section css={historySectionStyle}>
-          <p>최근 검색어</p>
-          <ul css={historyListStyle}>
-            {history.map((item, index) => (
-              <li key={index} css={historyItemStyle}>
-                <button onClick={() => handleRecentSearch(item)} css={historyItemButtonStyle}>
-                  {item}
-                </button>
-                <button onClick={() => handleDeleteHistory(item)} css={historyDeleteButtonStyle}>
-                  <AiOutlineClose />
-                </button>
-              </li>
-            ))}
-          </ul>
-        </section>
+        <SearchHistory
+          history={history}
+          onSelect={handleClickHistory}
+          onDelete={handleDeleteHistory}
+        />
       )}
 
       {userInfo.status === 'pending' && <ImSpinner2 css={spinnerStyle} />}
@@ -113,52 +85,7 @@ function GithubSearchPage() {
       {userInfo.status === 'rejected' && <p>결과를 찾을 수 없습니다. 다시 시도해 주세요.</p>}
 
       {userInfo.status === 'resolved' && (
-        <article css={userInfoCardStyle}>
-          <button css={clearButtonStyle} onClick={handleClear}>
-            <AiOutlineClose />
-          </button>
-
-          <a
-            css={userInfoAnchorStyle}
-            href={userInfo.data.html_url}
-            target="_blank"
-            rel="noreferrer"
-          >
-            <img
-              src={userInfo.data.avatar_url}
-              alt={`${userInfo.data.login} 프로필 이미지`}
-              css={userInfoImageStyle}
-            />
-          </a>
-
-          <header>
-            <a
-              css={userInfoAnchorStyle}
-              href={userInfo.data.html_url}
-              target="_blank"
-              rel="noreferrer"
-            >
-              <h2>{userInfo.data.name || userInfo.data.login}</h2>
-            </a>
-            <p css={userInfoTextStyle}>@{userInfo.data.login}</p>
-            {userInfo.data.bio && <p css={userInfoTextStyle}>{userInfo.data.bio}</p>}
-          </header>
-
-          <section css={userFollowWrapperStyle}>
-            <div css={userFollowStyle}>
-              [ Followers ]
-              <strong>
-                <span css={userFollowTextStyle}>{userInfo.data.followers}</span>
-              </strong>
-            </div>
-            <div css={userFollowStyle}>
-              [ Following ]
-              <strong>
-                <span css={userFollowTextStyle}>{userInfo.data.following}</span>
-              </strong>
-            </div>
-          </section>
-        </article>
+        <UserInfoCard user={userInfo.data} onClear={handleClearUserInfo} />
       )}
     </section>
   );
