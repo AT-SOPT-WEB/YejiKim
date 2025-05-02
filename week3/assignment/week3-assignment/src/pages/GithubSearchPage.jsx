@@ -28,22 +28,26 @@ function GithubSearchPage() {
   const [history, setHistory] = useState([]);
   const [userInfo, setUserInfo] = useState({ status: 'idle', data: null });
 
+  const fetchGithubUser = async (userId) => {
+    setUserInfo({ status: 'pending', data: null });
+    try {
+      const data = await getGithubUserInfo(userId);
+      setUserInfo({ status: 'resolved', data });
+      setHistory((prev) => updateSearchHistory(prev, userId));
+    } catch (err) {
+      console.error('에러 발생 : ', err);
+      setUserInfo({ status: 'rejected', data: null });
+    }
+  };
+
   const handleInputChange = (e) => setInput(e.target.value);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!input.trim()) return;
 
-    setUserInfo({ status: 'pending', data: null });
+    fetchGithubUser(input);
 
-    try {
-      const data = await getGithubUserInfo(input);
-      setUserInfo({ status: 'resolved', data });
-      setHistory((prev) => updateSearchHistory(prev, input));
-    } catch (err) {
-      console.error('에러 발생 : ', err);
-      setUserInfo({ status: 'rejected', data: null });
-    }
     setInput('');
   };
 
@@ -55,18 +59,8 @@ function GithubSearchPage() {
     setHistory(history.filter((historyItem) => historyItem !== item));
   };
 
-  const handleRecentSearch = async (item) => {
-    setUserInfo({ status: 'pending', data: null });
-
-    try {
-      const data = await getGithubUserInfo(item);
-      setUserInfo({ status: 'resolved', data });
-
-      setHistory((prev) => updateSearchHistory(prev, item));
-    } catch (err) {
-      console.error('에러 발생 : ', err);
-      setUserInfo({ status: 'rejected', data: null });
-    }
+  const handleRecentSearch = async (input) => {
+    fetchGithubUser(input);
   };
 
   const updateSearchHistory = (prev, keyword) => {
