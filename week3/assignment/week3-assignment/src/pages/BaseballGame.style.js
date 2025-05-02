@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 
-export const baseballGameWrapper = css`
+export const pageWrapper = css`
   display: flex;
   flex-direction: column;
   align-items: center;

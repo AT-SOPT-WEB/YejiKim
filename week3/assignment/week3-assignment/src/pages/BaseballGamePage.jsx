@@ -1,102 +1,81 @@
 /** @jsxImportSource @emotion/react */
 import TextInput from '../components/TextInput';
 import {
-  baseballGameWrapper,
+  pageWrapper,
   formStyle,
   messageStyle,
   historyStyle,
   historyItemStyle,
 } from './BaseballGame.style';
 import { useState } from 'react';
-
-const generateAnswer = () => {
-  const randomSet = new Set();
-  while (randomSet.size < 3) {
-    randomSet.add(Math.floor(Math.random() * 10));
-  }
-  return Array.from(randomSet);
-};
+import { generateAnswer, checkAnswer, isValidUserInput } from '../utils/baseballUtils';
 
 function BaseballGamePage() {
-  const [input, setInput] = useState('');
+  const [userInput, setUserInput] = useState('');
   const [answer, setAnswer] = useState(generateAnswer());
-  console.log('1. 생성한 랜덤 정답 :', answer);
   const [message, setMessage] = useState('');
   const [count, setCount] = useState(0);
-
   const [history, setHistory] = useState([]);
 
-  const handleInputChange = (e) => {
-    setInput(e.target.value);
+  // 입력 핸들러
+  const handleUserInputChange = (e) => {
+    setUserInput(e.target.value);
   };
 
+  // 제출 핸들러
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    console.log('2. 입력한 숫자 :', input);
-
-    if (!/^\d{3}$/.test(input) || new Set(input).size !== 3) {
+    // 숫자 유효성 검사
+    if (!isValidUserInput(userInput)) {
       setMessage('⚠️ 서로 다른 숫자 3자리를 입력해주세요!');
-      setInput('');
+      setUserInput('');
       return;
     }
 
+    // 시도 횟수 제한
     if (count >= 10) {
-      setMessage('💥 게임 오버! 10번 넘겨서 실패하였습니다. 게임이 5초 뒤에 초기화됩니다.');
-
-      setTimeout(() => {
-        handleReset();
-      }, 5000);
+      resetGame(5000, '💥 게임 오버! 10번 넘겨서 실패하였습니다. 게임이 5초 뒤에 초기화됩니다.');
       return;
     }
 
-    if (input === answer.join('')) {
-      setMessage('🎉 정답입니다! 3초 뒤에 게임이 리셋됩니다.');
-      setTimeout(() => {
-        handleReset();
-      }, 3000);
+    // 정답 확인
+    if (userInput === answer.join('')) {
+      resetGame(3000, '🎉 정답입니다! 3초 뒤에 게임이 리셋됩니다.');
+      return;
     } else {
-      const { strike, ball } = checkAnswer(input, answer);
+      const { strike, ball } = checkAnswer(userInput, answer);
       setMessage(`${strike} 스트라이크 ${ball} 볼`);
       setCount(count + 1);
-      setHistory([...history, `${input} - ${strike}S ${ball}B`]);
-      setInput('');
+      setHistory([...history, `${userInput} - ${strike}S ${ball}B`]);
+      setUserInput('');
     }
   };
 
-  const checkAnswer = (input, answer) => {
-    let strike = 0;
-    let ball = 0;
-
-    const inputArray = input.split('');
-    const answerArray = answer.join('').split('');
-
-    for (let i = 0; i < 3; i++) {
-      if (inputArray[i] === answerArray[i]) {
-        strike++;
-      } else if (answerArray.includes(inputArray[i])) {
-        ball++;
-      }
-    }
-
-    return { strike, ball };
-  };
-
-  const handleReset = () => {
+  // 게임 초기화
+  const handleGameReset = () => {
     setAnswer(generateAnswer());
-    setInput('');
+    setUserInput('');
     setMessage('');
     setHistory([]);
     setCount(0);
   };
 
+  // 게임 초기화
+  const resetGame = (time = 0, message = '') => {
+    setMessage(message);
+    setTimeout(() => {
+      handleGameReset();
+    }, time);
+  };
+
   return (
-    <section css={baseballGameWrapper}>
+    <section css={pageWrapper}>
       <form css={formStyle} onSubmit={handleSubmit}>
         <TextInput
           placeholder="3자리 숫자를 입력해주세요"
-          value={input}
-          onChange={handleInputChange}
+          value={userInput}
+          onChange={handleUserInputChange}
         />
       </form>
       <p css={messageStyle}>{message}</p>
