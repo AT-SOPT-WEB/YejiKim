@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import TextInput from '../components/TextInput';
+import TextInput from '../components/Common/TextInput';
 import {
   pageWrapper,
   formStyle,
@@ -9,7 +9,7 @@ import {
 } from './BaseballGame.style';
 import { useState } from 'react';
 import { generateAnswer, checkAnswer, isValidUserInput } from '../utils/baseballUtils';
-
+import { MAX_LENGTH } from '../constants/maxLength';
 function BaseballGamePage() {
   const [userInput, setUserInput] = useState('');
   const [answer, setAnswer] = useState(generateAnswer());
@@ -24,6 +24,7 @@ function BaseballGamePage() {
 
   // 제출 핸들러
   const handleSubmit = (e) => {
+    console.log('정답 : ', answer);
     e.preventDefault();
 
     // 숫자 유효성 검사
@@ -71,15 +72,18 @@ function BaseballGamePage() {
 
   return (
     <section css={pageWrapper}>
-      <form css={formStyle} onSubmit={handleSubmit}>
+      <form css={formStyle} onSubmit={handleSubmit} aria-label="숫자 야구 게임 입력">
         <TextInput
           placeholder="3자리 숫자를 입력해주세요"
           value={userInput}
           onChange={handleUserInputChange}
+          maxLength={MAX_LENGTH}
         />
       </form>
-      <p css={messageStyle}>{message}</p>
-      <ul css={historyStyle}>
+      <p css={messageStyle} role="alert">
+        {message}
+      </p>
+      <ul css={historyStyle} aria-label="게임 기록">
         {history.map((item, index) => (
           <li key={index} css={historyItemStyle}>
             {item}

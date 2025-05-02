@@ -14,7 +14,7 @@ import { AiOutlineClose } from 'react-icons/ai';
 function UserInfoCard({ user, onClear }) {
   return (
     <article css={userInfoCardStyle}>
-      <button css={cardCloseButtonStyle} onClick={onClear}>
+      <button css={cardCloseButtonStyle} onClick={onClear} aria-label="닫기">
         <AiOutlineClose />
       </button>
 

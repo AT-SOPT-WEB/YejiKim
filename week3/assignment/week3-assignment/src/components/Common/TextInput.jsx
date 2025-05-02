@@ -2,7 +2,7 @@
 
 import { textInputStyle } from './TextInput.style';
 
-function TextInput({ placeholder, value, onChange }) {
+function TextInput({ placeholder, value, onChange, maxLength}) {
   return (
     <input
       css={textInputStyle}
@@ -10,6 +10,8 @@ function TextInput({ placeholder, value, onChange }) {
       placeholder={placeholder}
       value={value}
       onChange={onChange}
+      aria-label={placeholder}
+      {...(maxLength && { maxLength })}
     />
   );
 }

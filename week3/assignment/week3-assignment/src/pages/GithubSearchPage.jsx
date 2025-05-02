@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import TextInput from '../components/TextInput';
+import TextInput from '../components/Common/TextInput';
 import { pageWrapper, formStyle, spinnerStyle } from './GithubSearchPage.style';
 import { useState } from 'react';
 import { getGithubUserInfo } from '../api/getGithubUserInfo';
@@ -80,9 +80,11 @@ function GithubSearchPage() {
         />
       )}
 
-      {userInfo.status === 'pending' && <ImSpinner2 css={spinnerStyle} />}
+      {userInfo.status === 'pending' && <ImSpinner2 css={spinnerStyle} aria-label="로딩 중" />}
 
-      {userInfo.status === 'rejected' && <p>결과를 찾을 수 없습니다. 다시 시도해 주세요.</p>}
+      {userInfo.status === 'rejected' && (
+        <p role="alert">결과를 찾을 수 없습니다. 다시 시도해 주세요.</p>
+      )}
 
       {userInfo.status === 'resolved' && (
         <UserInfoCard user={userInfo.data} onClear={handleClearUserInfo} />

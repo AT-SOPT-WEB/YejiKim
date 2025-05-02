@@ -1,16 +1,18 @@
 /** @jsxImportSource @emotion/react */
-import Header from './components/Header';
+import Header from './components/Layout/Header';
 import GithubSearchPage from './pages/GithubSearchPage';
 import BaseballGamePage from './pages/BaseballGamePage';
 import { useState } from 'react';
 
 function App() {
-  const [activeTab, setActiveTab] = useState('github');
+  const [activeTab, setActiveTab] = useState('baseball');
 
   return (
     <>
-      <main>
+      <header>
         <Header activeTab={activeTab} setActiveTab={setActiveTab} />
+      </header>
+      <main>
         {activeTab === 'baseball' && <BaseballGamePage />}
         {activeTab === 'github' && <GithubSearchPage />}
       </main>
