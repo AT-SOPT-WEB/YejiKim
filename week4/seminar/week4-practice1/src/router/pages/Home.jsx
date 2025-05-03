@@ -1,19 +1,35 @@
 /** @jsxImportSource @emotion/react */
 
-import { Link } from "react-router";
-import { container, navStyle, titleStyle, linkStyle } from "./Home.style";
+import { container, titleStyle } from "./Home.style";
+import { useState } from "react";
+import { useEffect } from "react";
+import axios from "axios";
+import PokemonCard from "../../components/PokemonCard";
 function Home() {
+  const [pokemonList, setPokemonList] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await axios.get(
+          "https://pokeapi.co/api/v2/pokemon?limit=40"
+        );
+        setPokemonList(res.data.results);
+      } catch (error) {
+        console.error("포켓몬 리스트를 불러오는 데 실패했습니다.", error);
+      }
+    };
+
+    fetchData();
+  }, []);
   return (
     <div css={container}>
       <h1 css={titleStyle}>포켓몬 도감</h1>
-      <nav css={navStyle}>
-        <Link to="/pokemon/피카츄" css={linkStyle}>
-          피카츄
-        </Link>
-        <Link to="/pokemon/이상해씨" css={linkStyle}>
-          이상해씨
-        </Link>
-      </nav>
+      <div style={{ display: "flex", flexWrap: "wrap", gap: "1rem" }}>
+        {pokemonList.map((pokemon) => (
+          <PokemonCard key={pokemon.name} name={pokemon.name} />
+        ))}
+      </div>
     </div>
   );
 }
