@@ -4,13 +4,21 @@ export const container = style({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
-  gap: '1rem',
   padding: '3rem',
+  gap: '1rem',
 });
 
 export const title = style({
   fontSize: '2rem',
   fontWeight: 'bold',
+});
+
+export const form = style({
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  gap: '1rem',
+  width: '100%',
 });
 
 export const link = style({
