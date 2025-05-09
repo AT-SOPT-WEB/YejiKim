@@ -10,4 +10,13 @@ export const button = style({
   fontWeight: 'bold',
   cursor: 'pointer',
   padding: '15px 30px',
+  transition: 'background-color 0.3s ease',
+
+  selectors: {
+    '&:disabled': {
+      backgroundColor: '#A0A6B8',
+      cursor: 'not-allowed',
+      opacity: 0.5,
+    },
+  },
 });

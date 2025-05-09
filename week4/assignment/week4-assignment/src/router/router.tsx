@@ -1,7 +1,7 @@
 import { createBrowserRouter } from 'react-router';
 import Login from '../pages/Login';
 import MyPage from '../pages/MyPage/MyPage';
-import Signup from '../pages/Signup/Signup';
+import Signup from '../pages/Signup';
 
 const router = createBrowserRouter([
   {
