@@ -5,3 +5,9 @@ export interface MyNicknameData {
 }
 
 export type MyNicknameResponse = BaseResponse<MyNicknameData>;
+
+export interface UpdateNicknameRequest {
+  nickname: string;
+}
+
+export type UpdateNicknameResponse = BaseResponse<null>;

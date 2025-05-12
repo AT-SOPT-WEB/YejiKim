@@ -4,13 +4,12 @@ import type { SignupRequest } from '../types';
 
 import type { AxiosError } from 'axios';
 
-export const useSignup = ({
-  onSuccess,
-  onError,
-}: {
+interface Props {
   onSuccess: (nickname: string) => void;
   onError: (message: string) => void;
-}) => {
+}
+
+export const useSignup = ({ onSuccess, onError }: Props) => {
   return useMutation({
     mutationFn: (request: SignupRequest) => signup(request),
     onSuccess: (res) => {
