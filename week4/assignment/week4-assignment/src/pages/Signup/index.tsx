@@ -1,4 +1,4 @@
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import * as styles from './style.css';
 import { useState } from 'react';
 import IdInput from './IdInput';
@@ -9,16 +9,12 @@ function Signup() {
   const [step, setStep] = useState<number>(1);
   const [loginId, setLoginId] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-  const [nickname, setNickname] = useState<string>('');
+  const navigate = useNavigate();
 
   const subTitles: Record<number, string> = {
     1: '아이디',
     2: '비밀번호',
     3: '닉네임',
-  };
-
-  const handleSignup = () => {
-    alert(`아이디: ${loginId}\n비밀번호: ${password}\n닉네임: ${nickname}`);
   };
 
   return (
@@ -43,8 +39,8 @@ function Signup() {
 
         {step === 2 && (
           <PasswordInput
-            onComplete={(validatedPassword) => {
-              setPassword(validatedPassword);
+            onComplete={(password) => {
+              setPassword(password);
               setStep(3);
             }}
           />
@@ -52,9 +48,10 @@ function Signup() {
 
         {step === 3 && (
           <NicknameInput
-            onComplete={(nickname) => {
-              setNickname(nickname);
-              handleSignup();
+            loginId={loginId}
+            password={password}
+            onComplete={() => {
+              navigate('/');
             }}
           />
         )}
@@ -62,7 +59,7 @@ function Signup() {
 
       <div className={styles.linkContainer}>
         <span>이미 회원이신가요?</span>
-        <Link to="/login" className={styles.link}>
+        <Link to="/" className={styles.link}>
           로그인
         </Link>
       </div>

@@ -2,12 +2,12 @@ import { style } from '@vanilla-extract/css';
 
 export const wrapper = style({
   position: 'relative',
-  width: '80%', // ✅ input이 전체에서 80%만 차지하도록
+  width: '80%',
 });
 
 export const input = style({
   width: '100%',
-  padding: '12px 40px 12px 12px', // ✅ 오른쪽에 아이콘 들어올 여유 공간 확보
+  padding: '12px 40px 12px 12px',
   borderRadius: '4px',
   border: '1px solid #ccc',
   fontSize: '1rem',

@@ -4,14 +4,11 @@ import Input from '../../shared/components/Input';
 import * as styles from './style.css';
 import { useLogin } from '../../api/auth/hooks/useLogin';
 import { useState } from 'react';
-import { useNavigate } from 'react-router';
 
 function Login() {
-  const navigate = useNavigate();
-
   const [loginId, setLoginId] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-  const { mutate, isPending } = useLogin(navigate);
+  const { mutate, isPending } = useLogin();
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

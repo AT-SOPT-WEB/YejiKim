@@ -45,7 +45,7 @@ function PasswordInput({ onComplete }: Props) {
     <>
       <Input
         type="password"
-        placeholder="비밀번호"
+        placeholder="비밀번호를 입력 (대문자/소문자/숫자만 사용 가능, 8자 이상 20자이하)"
         value={password}
         onChange={handleChangePassword}
         showIcon={false}

@@ -3,8 +3,11 @@ import { login } from '../authAPI';
 import type { LoginRequest, LoginResponse } from '../types';
 import { STORAGE_KEY } from '../../../shared/constants/storageKey';
 import type { AxiosError } from 'axios';
+import { useNavigate } from 'react-router';
 
-export const useLogin = (navigate: (path: string) => void) => {
+export const useLogin = () => {
+  const navigate = useNavigate();
+
   return useMutation({
     mutationFn: (request: LoginRequest) => login(request),
     onSuccess: (response: LoginResponse) => {
