@@ -1,0 +1,44 @@
+import { style } from '@vanilla-extract/css';
+
+export const container = style({
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  padding: '3rem',
+  gap: '1rem',
+});
+
+export const title = style({
+  fontSize: '2rem',
+  fontWeight: 'bold',
+});
+
+export const subtitle = style({
+  width: '80%',
+  textAlign: 'left',
+  fontSize: '1.5rem',
+  fontWeight: 'bold',
+});
+
+export const form = style({
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  gap: '1rem',
+  width: '100%',
+});
+
+export const link = style({
+  color: '#3D90D7',
+  fontSize: '1rem',
+  fontWeight: 'bold',
+  borderBottom: '1.5px solid #3D90D7',
+  cursor: 'pointer',
+});
+
+export const linkContainer = style({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  gap: '0.5rem',
+});
