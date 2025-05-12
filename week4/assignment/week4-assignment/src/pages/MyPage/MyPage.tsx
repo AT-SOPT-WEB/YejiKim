@@ -1,5 +1,13 @@
+import Header from '../../shared/components/Header';
+import { Outlet } from 'react-router';
+
 function MyPage() {
-  return <div>마이페이지</div>;
+  return (
+    <div>
+      <Header />
+      <Outlet />
+    </div>
+  );
 }
 
 export default MyPage;
