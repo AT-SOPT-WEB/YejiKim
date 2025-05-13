@@ -47,7 +47,7 @@ function BaseballGamePage() {
     } else {
       const { strike, ball } = checkAnswer(userInput, answer);
       setMessage(`${strike} 스트라이크 ${ball} 볼`);
-      setCount(count + 1);
+      setCount((prev) => prev + 1); 
       setHistory([...history, `${userInput} - ${strike}S ${ball}B`]);
       setUserInput('');
     }

@@ -38,7 +38,7 @@ function GithubSearchPage() {
   };
 
   // 검색 기록 클릭 핸들러
-  const handleClickHistory = async (userId) => {
+  const handleClickHistory = (userId) => {
     fetchGithubUserInfo(userId);
   };
 
