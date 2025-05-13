@@ -11,3 +11,13 @@ export interface UpdateNicknameRequest {
 }
 
 export type UpdateNicknameResponse = BaseResponse<null>;
+
+export interface SearchUserRequest {
+  keyword: string;
+}
+
+export interface SearchUserData {
+  nicknameList: string[];
+}
+
+export type SearchUserResponse = BaseResponse<SearchUserData>;

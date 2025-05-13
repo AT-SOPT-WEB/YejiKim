@@ -1,5 +1,5 @@
 import axiosInstance from '../../shared/network/axiosInstance';
-import type { MyNicknameResponse, UpdateNicknameRequest, UpdateNicknameResponse } from './types';
+import type { MyNicknameResponse, SearchUserRequest, SearchUserResponse, UpdateNicknameRequest, UpdateNicknameResponse } from './types';
 
 // 내 닉네임 조회 API
 export const myNickname = async (): Promise<MyNicknameResponse> => {
@@ -12,5 +12,13 @@ export const updateNickname = async (
   request: UpdateNicknameRequest,
 ): Promise<UpdateNicknameResponse> => {
   const response = await axiosInstance.patch('/api/v1/users', request);
+  return response.data;
+};
+
+// 전체 유저 조회 API
+export const searchUser = async (
+  request: SearchUserRequest,
+): Promise<SearchUserResponse> => {
+  const response = await axiosInstance.get('/api/v1/users', { params: request });
   return response.data;
 };

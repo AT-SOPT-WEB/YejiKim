@@ -2,9 +2,12 @@ import { useState } from 'react';
 import Input from '../../shared/components/Input';
 import Button from '../../shared/components/Button';
 import * as styles from './MyPageSearch.style.css.ts';
+import { useSearchUser } from '../../api/user/hooks/useSearchUser.ts';
 
 function MyPageSearch() {
   const [nickname, setNickname] = useState('');
+  const { mutate } = useSearchUser();
+  const [searchResult, setSearchResult] = useState<string[]>([]);
 
   const handleNicknameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNickname(e.target.value);
@@ -12,7 +15,16 @@ function MyPageSearch() {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(nickname);
+    setSearchResult([]);
+
+    mutate(
+      { keyword: nickname },
+      {
+        onSuccess: (res) => {
+          setSearchResult(res.data?.nicknameList || []);
+        },
+      },
+    );
   };
 
   return (
@@ -27,6 +39,16 @@ function MyPageSearch() {
         />
         <Button type="submit">확인</Button>
       </form>
+
+      {searchResult.length > 0 && (
+        <ul className={styles.searchResultList}>
+          {searchResult.map((nick, index) => (
+            <li key={index} className={styles.searchResultItem}>
+              {nick}
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 }
