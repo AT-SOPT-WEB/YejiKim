@@ -1,13 +1,13 @@
 import { Link } from 'react-router';
 import * as styles from './style.css';
 import { Menu, User, X } from 'lucide-react';
-import { useMyNickname } from '../../../api/user/hooks/useMyNickname';
+import { useFetchMyNickname } from '../../../api/user/hooks';
 import { STORAGE_KEY } from '../../constants/storageKey';
 import { useState } from 'react';
 import clsx from 'clsx';
 
 function Header() {
-  const { data, isLoading, error } = useMyNickname();
+  const { data } = useFetchMyNickname();
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
 
   const handleLogout = () => {
@@ -15,7 +15,7 @@ function Header() {
     location.href = '/';
   };
 
-  const handleMenuClick = () => setMenuOpen((prev) => !prev);
+  const toggleMenu = () => setMenuOpen((prev) => !prev);
 
   const nickname = data?.data?.nickname;
 
@@ -24,7 +24,7 @@ function Header() {
       <div className={styles.topWrapper}>
         <div className={styles.navAndMenu}>
           <div className={styles.menuWrapper}>
-            <button className={styles.menuButton} onClick={handleMenuClick}>
+            <button className={styles.menuButton} onClick={toggleMenu}>
               {menuOpen ? (
                 <X className={styles.menuIcon} aria-label="메뉴 닫기" />
               ) : (
@@ -50,9 +50,7 @@ function Header() {
 
         <div className={styles.userInfo}>
           <User className={styles.userIcon} />
-          <span className={styles.userName}>
-            {isLoading ? '불러오는 중...' : error ? '에러 발생' : nickname}
-          </span>
+          <span className={styles.userName}>{nickname}</span>
         </div>
       </div>
     </header>

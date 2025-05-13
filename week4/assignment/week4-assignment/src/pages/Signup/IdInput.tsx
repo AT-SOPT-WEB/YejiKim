@@ -7,25 +7,22 @@ interface Props {
 }
 
 function IdInput({ onComplete }: Props) {
-  const [id, setId] = useState('');
-  const [error, setError] = useState('');
+  const [id, setId] = useState<string>('');
 
-  const isLong = id.length > 20;
-  const isValidLength = id.length >= 8 && !isLong;
+  const getErrorMessage = (value: string): string => {
+    if (value.length > 20) return '최대 20자 이하로 입력해주세요.';
+    return '';
+  };
+
+  const error = getErrorMessage(id);
+  const isValid = id.length >= 8 && id.length <= 20;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setId(value);
-
-    if (value.length > 20) {
-      setError('최대 20자 이하로 입력해주세요.');
-    } else {
-      setError('');
-    }
+    setId(e.target.value);
   };
 
   const handleNext = () => {
-    if (!isValidLength) return;
+    if (!isValid) return;
     onComplete(id);
   };
 
@@ -36,8 +33,10 @@ function IdInput({ onComplete }: Props) {
         value={id}
         onChange={handleChange}
       />
+
       {error && <ErrorMessage error={error} />}
-      <Button type="button" onClick={handleNext} disabled={!isValidLength}>
+
+      <Button type="button" onClick={handleNext} disabled={!isValid}>
         다음
       </Button>
     </>

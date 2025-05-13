@@ -10,7 +10,6 @@ type Props = InputHTMLAttributes<HTMLInputElement> & {
 function Input({ type = 'text', showIcon = true, ...rest }: Props) {
   const isPassword = type === 'password';
   const [show, setShow] = useState(false);
-
   const inputType = isPassword ? (show ? 'text' : 'password') : type;
 
   return (
@@ -23,7 +22,7 @@ function Input({ type = 'text', showIcon = true, ...rest }: Props) {
           onClick={() => setShow((prev) => !prev)}
           tabIndex={-1}
         >
-          {show ? <EyeOff size={18} /> : <Eye size={18} />}
+          {show ? <EyeOff className={styles.icon} /> : <Eye className={styles.icon} />}
         </button>
       )}
     </div>

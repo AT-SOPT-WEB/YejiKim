@@ -1,6 +1,6 @@
 import Input from '../../shared/components/Input';
 import Button from '../../shared/components/Button';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import ErrorMessage from '../../shared/components/ErrorMessage';
 
 interface Props {
@@ -10,23 +10,17 @@ interface Props {
 function PasswordInput({ onComplete }: Props) {
   const [password, setPassword] = useState('');
   const [confirm, setConfirm] = useState('');
-  const [error, setError] = useState('');
 
-  const isEmpty = password === '' || confirm === '';
-  const isMismatch = password !== confirm;
-  const isTooLong = password.length > 20 || confirm.length > 20;
+  const getErrorMessage = (pw: string, cf: string): string => {
+    if (!pw || !cf) return '';
+    if (pw.length > 20 || cf.length > 20) return '최대 길이는 20자 이하로 입력해주세요.';
+    if (pw !== cf) return '비밀번호가 일치하지 않아요.';
+    if (pw.length < 8) return '8자 이상 입력해주세요.';
+    return '';
+  };
 
-  const isValid = !isEmpty && !isMismatch && !isTooLong;
-
-  useEffect(() => {
-    if (isTooLong) {
-      setError('최대 길이는 20자 이하로 입력해주세요.');
-    } else if (!isEmpty && isMismatch) {
-      setError('비밀번호가 일치하지 않아요.');
-    } else {
-      setError('');
-    }
-  }, [password, confirm]);
+  const error = getErrorMessage(password, confirm);
+  const isValid = error === '';
 
   const handleChangePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);

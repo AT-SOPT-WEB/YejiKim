@@ -1,5 +1,6 @@
-import type { BaseResponse } from '../../../shared/network/baseResponse';
+import type { BaseResponse } from '../../shared/network/baseResponse';
 
+// 로그인
 export interface LoginRequest {
   loginId: string;
   password: string;
@@ -11,6 +12,7 @@ export interface LoginData {
 
 export type LoginResponse = BaseResponse<LoginData>;
 
+// 회원가입
 export interface SignupRequest {
   loginId: string;
   password: string;

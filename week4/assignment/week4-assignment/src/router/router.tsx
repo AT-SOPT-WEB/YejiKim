@@ -1,6 +1,6 @@
 import { createBrowserRouter } from 'react-router';
 import Login from '../pages/Login';
-import MyPage from '../pages/MyPage/MyPage';
+import MyPage from '../pages/MyPage';
 import Signup from '../pages/Signup';
 import MyPageInfo from '../pages/MyPage/MyPageInfo';
 import MyPageSearch from '../pages/MyPage/MyPageSearch';

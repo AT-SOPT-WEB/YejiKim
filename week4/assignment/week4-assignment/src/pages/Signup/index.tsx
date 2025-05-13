@@ -9,6 +9,7 @@ function Signup() {
   const [step, setStep] = useState<number>(1);
   const [loginId, setLoginId] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+
   const navigate = useNavigate();
 
   const subTitles: Record<number, string> = {

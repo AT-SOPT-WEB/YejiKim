@@ -2,12 +2,13 @@ import { Link } from 'react-router';
 import Button from '../../shared/components/Button';
 import Input from '../../shared/components/Input';
 import * as styles from './style.css';
-import { useLogin } from '../../api/auth/hooks/useLogin';
+import { useLogin } from '../../api/auth/hooks';
 import { useState } from 'react';
 
 function Login() {
   const [loginId, setLoginId] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+
   const { mutate, isPending } = useLogin();
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -26,6 +27,7 @@ function Login() {
   return (
     <div className={styles.container}>
       <h2 className={styles.title}>로그인</h2>
+
       <form className={styles.form} onSubmit={handleSubmit}>
         <Input placeholder="아이디" type="text" value={loginId} onChange={handleLoginIdChange} />
         <Input
@@ -38,6 +40,7 @@ function Login() {
           로그인
         </Button>
       </form>
+
       <Link to="/signup" className={styles.link}>
         회원가입
       </Link>

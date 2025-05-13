@@ -2,11 +2,11 @@ import { useState } from 'react';
 import Input from '../../shared/components/Input';
 import Button from '../../shared/components/Button';
 import * as styles from './MyPageSearch.style.css.ts';
-import { useSearchUser } from '../../api/user/hooks/useSearchUser.ts';
+import { useSearchUsersByNickname } from '../../api/user/hooks';
 
 function MyPageSearch() {
-  const [nickname, setNickname] = useState('');
-  const { mutate } = useSearchUser();
+  const [nickname, setNickname] = useState<string>('');
+  const { mutate } = useSearchUsersByNickname();
   const [searchResult, setSearchResult] = useState<string[]>([]);
 
   const handleNicknameChange = (e: React.ChangeEvent<HTMLInputElement>) => {

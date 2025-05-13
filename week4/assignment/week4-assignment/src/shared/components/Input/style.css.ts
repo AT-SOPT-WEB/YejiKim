@@ -27,3 +27,8 @@ export const toggleButton = style({
   alignItems: 'center',
   color: '#495870',
 });
+
+export const icon = style({
+  width: '18px',
+  height: '18px',
+});
